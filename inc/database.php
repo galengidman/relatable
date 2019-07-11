@@ -14,10 +14,11 @@ add_action('init', function() {
     }
 
     dbDelta("CREATE TABLE {$wpdb->prefix}relatable (
-        foo_id bigint(20) unsigned NOT NULL DEFAULT 0,
-        bar_id bigint(20) unsigned NOT NULL DEFAULT 0,
-        pivot varchar(100) NOT NULL,
-        PRIMARY KEY  (foo_id, bar_id)
+        id bigint(20) unsigned NOT NULL auto_increment,
+        from_id bigint(20) unsigned NOT NULL DEFAULT 0,
+        to_id bigint(20) unsigned NOT NULL DEFAULT 0,
+        channel varchar(100) NOT NULL,
+        PRIMARY KEY  (id)
     ) {$wpdb->get_charset_collate()};");
 
     update_option($option_name, RELATABLE_VERSION);

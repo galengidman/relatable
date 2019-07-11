@@ -4,30 +4,35 @@ class Relatable_Channel {
 
     public $channel;
     public $name;
-    public $foo_type;
-    public $bar_type;
+    public $from;
+    public $to;
 
-    public function __construct($channel, $name, $foo_type, $foo_args, $bar_type, $bar_args) {
-        global $relatable_channels;
-
-        foreach ([$foo_type, $bar_type] as $post_type) {
+    public function __construct($channel, $name, $from, $to) {
+        foreach ([$from, $to] as $post_type) {
             if (! post_type_exists($post_type)) {
-                new Relatable_Notice("<p><code>{$post_type}</code> is not a valid post type</p>", 'error');
-                return;
+                add_action('admin_notices', function() use ($post_type, $channel) { ?>
+                    <div class="notice notice-error"><p><code><?php echo $post_type; ?></code> is not a valid post type. Channel <code><?php echo $channel; ?></code> is inactive.</p></div>
+                <?php });
             }
         }
 
         $this->channel = $channel;
         $this->name = $name;
-        $this->foo_type = $foo_type;
-        $this->foo_args = $foo_args;
-        $this->bar_type = $bar_type;
-        $this->bar_args = $bar_args;
+        $this->from = $from;
+        $this->to = $to;
 
-        $relatable_channels[] = $this;
+        global $relatable_channels;
+        $relatable_channels[$this->channel] = $this;
+    }
 
-        new Relatable_Condition('foo', $this);
-        new Relatable_Condition('bar', $this);
+    public function to_query($args = []) {
+        $args = wp_parse_args($args, [
+            'posts_per_page' => -1,
+        ]);
+
+        $args['post_type'] = $this->to;
+
+        return new WP_Query($args);
     }
 
 }

@@ -15,19 +15,3 @@ include RELATABLE_PATH . 'inc/classes/class-relatable-channel.php';
 include RELATABLE_PATH . 'inc/admin.php';
 include RELATABLE_PATH . 'inc/database.php';
 include RELATABLE_PATH . 'inc/helpers.php';
-
-add_action('init', function() {
-    new Relatable_Channel(
-        'posts_pages',
-        'Posts → Pages',
-        'post',
-        'page',
-    );
-
-    new Relatable_Channel(
-        'pages_events',
-        'Pages → Events',
-        'page',
-        'event',
-    );
-});

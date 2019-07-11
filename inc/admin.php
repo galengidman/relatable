@@ -1,7 +1,7 @@
 <?php
 
 add_action('add_meta_boxes', function() {
-    if (! relatable_admin_active()) {
+    if (! relatable_should_activate_admin()) {
         return;
     }
 
@@ -80,7 +80,7 @@ add_action('save_post', function($post_id) {
 });
 
 add_action('admin_enqueue_scripts', function() {
-    if (! relatable_admin_active()) {
+    if (! relatable_should_activate_admin()) {
         return;
     }
 

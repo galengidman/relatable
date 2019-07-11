@@ -10,12 +10,7 @@ function relatable_get_post_channels($post_id = null) {
     });
 }
 
-function relatable_get_post_type_label($post_type) {
-    $object = get_post_type_object($post_type);
-    return $object->labels->name;
-}
-
-function relatable_admin_active() {
+function relatable_should_activate_admin() {
     return is_admin()
         && in_array(get_current_screen()->base, ['post', 'post-new'])
         && relatable_get_post_channels();

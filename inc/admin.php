@@ -13,12 +13,8 @@ add_action('add_meta_boxes', function() {
 });
 
 function relatable_metabox() {
-    global $wpdb;
-
-    $selected = $wpdb->get_results("SELECT to_id FROM {$wpdb->prefix}relatable WHERE from_id = " . get_the_ID());
-    $selected = array_map(function($r) { return absint($r->to_id); }, $selected);
-
     foreach (relatable_get_post_channels() as $channel) : ?>
+        <?php $selected = relatable_get_to($channel->channel); ?>
         <div class="relatable-channel" data-relatable-channel="<?php echo $channel->channel; ?>">
             <h4 class="relatable-title"><?php echo $channel->name; ?></h4>
 

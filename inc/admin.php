@@ -14,7 +14,7 @@ add_action('add_meta_boxes', function() {
 
 function relatable_metabox() {
     foreach (relatable_get_post_channels() as $channel) : ?>
-        <?php $selected = relatable_get_to($channel->channel); ?>
+        <?php $selected = relatable_get_to($channel->channel) ?: [0]; ?>
         <div class="relatable-channel" data-relatable-channel="<?php echo $channel->channel; ?>">
             <h4 class="relatable-title"><?php echo $channel->name; ?></h4>
 
@@ -22,26 +22,26 @@ function relatable_metabox() {
                 <div class="relatable-col">
                     <ul class="relatable-list" data-relatable-list="unselected">
                         <?php $unselected = $channel->to_query(['post__not_in' => $selected]); ?>
-                        <?php while ($unselected->have_posts()) : $unselected->the_post(); ?>
+                        <?php foreach ($unselected->get_posts() as $p) : ?>
                             <li>
-                                <input type="hidden" name="relatable[<?php echo $channel->channel; ?>][unselected][]" value="<?php the_ID(); ?>">
-                                <?php the_title(); ?>
-                                <small>(ID: <?php the_ID(); ?>)</small>
+                                <input type="hidden" name="relatable[<?php echo $channel->channel; ?>][unselected][]" value="<?php echo $p->ID; ?>">
+                                <?php echo $p->post_title; ?>
+                                <small>(ID: <?php echo $p->ID; ?>)</small>
                             </li>
-                        <?php endwhile; wp_reset_postdata(); ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
 
                 <div class="relatable-col">
                     <ul class="relatable-list" data-relatable-list="selected">
                         <?php $selected = $channel->to_query(['post__in' => $selected, 'orderby' => 'post__in']); ?>
-                        <?php while ($selected->have_posts()) : $selected->the_post(); ?>
+                        <?php foreach ($selected->get_posts() as $p) : ?>
                             <li>
-                                <input type="hidden" name="relatable[<?php echo $channel->channel; ?>][selected][]" value="<?php the_ID(); ?>">
-                                <?php the_title(); ?>
-                                <small>(ID: <?php the_ID(); ?>)</small>
+                                <input type="hidden" name="relatable[<?php echo $channel->channel; ?>][selected][]" value="<?php echo $p->ID; ?>">
+                                <?php echo $p->post_title; ?>
+                                <small>(ID: <?php echo $p->ID; ?>)</small>
                             </li>
-                        <?php endwhile; wp_reset_postdata(); ?>
+                        <?php endforeach; ?>
                     </ul>
                 </div>
             </div>
@@ -66,7 +66,7 @@ add_action('save_post', function($post_id) {
         }, $insert_values);
         $insert_values = join(',', $insert_values);
 
-        return $wpdb->query("
+        $wpdb->query("
             INSERT INTO {$table}
                 (from_id, to_id, channel)
             VALUES

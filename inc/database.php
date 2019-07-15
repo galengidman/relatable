@@ -23,3 +23,12 @@ add_action('init', function() {
 
 	update_option($option_name, RELATABLE_VERSION);
 });
+
+add_action('delete_post', function($post_id) {
+	global $wpdb;
+
+	$table = $wpdb->prefix . 'relatable';
+
+	$wpdb->delete($table, ['from_id' => $post_id]);
+	$wpdb->delete($table, ['to_id' => $post_id]);
+});

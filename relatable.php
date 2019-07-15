@@ -15,8 +15,18 @@ define('RELATABLE_URL', plugin_dir_url(RELATABLE_FILE));
 
 $relatable_channels = [];
 
-include RELATABLE_PATH . 'inc/classes/class-relatable-channel.php';
+add_action('plugins_loaded', function() {
+	include_once RELATABLE_PATH . 'vendor/autoload.php';
 
-include RELATABLE_PATH . 'inc/admin.php';
-include RELATABLE_PATH . 'inc/database.php';
-include RELATABLE_PATH . 'inc/helpers.php';
+	Puc_v4_Factory::buildUpdateChecker(
+		'https://github.com/wearefixel/relatable/',
+		RELATABLE_FILE,
+		'relatable'
+	);
+
+	include RELATABLE_PATH . 'inc/classes/class-relatable-channel.php';
+
+	include RELATABLE_PATH . 'inc/admin.php';
+	include RELATABLE_PATH . 'inc/database.php';
+	include RELATABLE_PATH . 'inc/helpers.php';
+});

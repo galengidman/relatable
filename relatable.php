@@ -8,7 +8,7 @@
  * Author URI: https://galengidman.com/
  */
 
-define('RELATABLE_VERSION', '1.0.0');
+define('RELATABLE_VERSION', '0.1.0');
 define('RELATABLE_FILE', __FILE__);
 define('RELATABLE_PATH', plugin_dir_path(RELATABLE_FILE));
 define('RELATABLE_URL', plugin_dir_url(RELATABLE_FILE));

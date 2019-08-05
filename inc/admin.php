@@ -50,6 +50,10 @@ function relatable_metabox() {
 }
 
 add_action('save_post', function($post_id) {
+	if (! isset($_POST['relatable'])) {
+		return;
+	}
+
 	global $wpdb;
 
 	$table = $wpdb->prefix . 'relatable';

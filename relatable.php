@@ -19,7 +19,7 @@ add_action('plugins_loaded', function() {
 	include_once RELATABLE_PATH . 'vendor/autoload.php';
 
 	Puc_v4_Factory::buildUpdateChecker(
-		'https://github.com/wearefixel/relatable/',
+		'https://github.com/galengidman/relatable/',
 		RELATABLE_FILE,
 		'relatable'
 	);

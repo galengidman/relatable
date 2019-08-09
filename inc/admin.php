@@ -64,18 +64,19 @@ add_action('save_post', function($post_id) {
 			'channel' => $channel,
 		]);
 
-		$insert_values = $data['selected'];
-		$insert_values = array_map(function($to) use ($post_id, $channel) {
-			return "({$post_id}, {$to}, '{$channel}')";
-		}, $insert_values);
-		$insert_values = join(',', $insert_values);
+		if ($insert_values = $data['selected'] ?? false) {
+			$insert_values = array_map(function($to) use ($post_id, $channel) {
+				return "({$post_id}, {$to}, '{$channel}')";
+			}, $insert_values);
+			$insert_values = join(',', $insert_values);
 
-		$wpdb->query("
-			INSERT INTO {$table}
-				(from_id, to_id, channel)
-			VALUES
-				{$insert_values};
-		");
+			$wpdb->query("
+				INSERT INTO {$table}
+					(from_id, to_id, channel)
+				VALUES
+					{$insert_values};
+			");
+		}
 	}
 });
 

@@ -58,7 +58,7 @@ function relatable_cached_query($sql, $method = 'get_results') {
 
 	if ($results === false) {
 		$results = $wpdb->{$method}($sql);
-		wp_cache_add($key, $results, 'relatable');
+		wp_cache_set($key, $results, 'relatable');
 	}
 
 	return $results;

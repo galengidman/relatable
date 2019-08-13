@@ -3,12 +3,12 @@
  * Plugin Name: Relatable
  * Plugin URI: https://github.com/galengidman/relatable
  * Description: Provides a simple post-to-post relationship framework. Data is stored in dedicated DB table to enable easy two-way access.
- * Version: 0.2.1
+ * Version: 0.2.2
  * Author: Galen Gidman
  * Author URI: https://galengidman.com/
  */
 
-define('RELATABLE_VERSION', '0.2.1');
+define('RELATABLE_VERSION', '0.2.2');
 define('RELATABLE_FILE', __FILE__);
 define('RELATABLE_PATH', plugin_dir_path(RELATABLE_FILE));
 define('RELATABLE_URL', plugin_dir_url(RELATABLE_FILE));

@@ -32,3 +32,5 @@ add_action('delete_post', function($post_id) {
 	$wpdb->delete($table, ['from_id' => $post_id]);
 	$wpdb->delete($table, ['to_id' => $post_id]);
 });
+
+wp_cache_add_non_persistent_groups(['relatable']);
